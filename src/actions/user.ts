@@ -4,7 +4,7 @@ import config from '../config';
 export class UserAction{
 
     /**
-     * name
+     * 注册界面
      */
     public async register(page:Page,username:string,password:string,respassword:string,email:string) {
         await page.goto(config.url);
@@ -25,5 +25,21 @@ export class UserAction{
         await registBtn.click();
     
         
+    }
+
+    public async login(page:Page,username:string,password:string){
+
+        await page.goto(config.url);
+        const loginLink = await page.waitForSelector('a[href="/signin"]');
+        await loginLink.click();
+
+        const usernameInput = await page.waitForSelector('#name');
+        await usernameInput.type(username);
+
+        const passwordInput = await page.waitForSelector('#pass');
+        await passwordInput.type(password);
+
+        const loginBtn = await page.waitForSelector('input[type="submit"]');
+        await loginBtn.click();
     }
 }
