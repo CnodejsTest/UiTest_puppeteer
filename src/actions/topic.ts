@@ -1,29 +1,21 @@
-import {Page} from 'puppeteer';
+import { Page } from 'puppeteer';
+import { clear } from './common'
+export class TopicAction {
+    // 创建话题
+    public async createTopic(page: Page, tab: string, title: string, content: string) {
 
-export class TopicAction{
-
-    public async createTopic(page:Page,tab:string,title:string,content:string){
-
-        await page.select('#tab-value',tab);
-
-        // const tabOption = await page.waitForSelector('#tab-value');
-        // await tabOption.click();
-
-        // // 根据tab文本定位元素
-        // const allOption = await page.$$('#tab-value > option');
-        // const allOptionVal = await page.$$eval('#tab-value > option',eles=>(eles.map(ele=>ele.textContent)));
-        // const index = allOptionVal.findIndex(t=>t==tab);
-        // if(index>0){
-        //     await allOption[index].click();
-        // }
+        await page.select('#tab-value', tab);
 
         // title
         const titleInput = await page.waitForSelector('#title');
+        await titleInput.click();
+        await clear(page);
         await titleInput.type(title)
 
         // content
         const contentArea = await page.waitFor('div.CodeMirror-scroll');
         await contentArea.click();
+        await clear(page);
         // await contentArea.type(content);
         await page.keyboard.type(content);
 
@@ -32,5 +24,12 @@ export class TopicAction{
         await submitBtn.click();
 
     }
+
+
+    // 修改话题
+    public async editTopic(page: Page, tab: string, title: string, content: string) {
+        await this.createTopic(page, tab, title, content);
+    }
+
 }
 
