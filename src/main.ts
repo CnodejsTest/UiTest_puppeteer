@@ -13,10 +13,11 @@ async function run() {
     // await page.goto('http://39.107.96.138:3000/topic/create');
     // await topicAction.createTopic(page,'ask','11111','sssssss');
 
-    await page.goto('http://39.107.96.138:3000/topic/5d67b526692231084ca27cfb/edit');
-    await topicAction.editTopic(page, 'ask', 'helloworld', '12311231312312312')
-
-
+    // await page.goto('http://39.107.96.138:3000/topic/5d67b526692231084ca27cfb/edit');
+    // await topicAction.editTopic(page, 'ask', 'helloworld', '12311231312312312')
+    await page.goto('http://39.107.96.138:3000');
+    await useraction.navToTabByName(page,'招聘')
+    await useraction.navToTabByName(page,'分享')
 }
 
 run();
