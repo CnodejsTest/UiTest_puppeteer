@@ -1,5 +1,6 @@
 import { Page } from 'puppeteer'
 import config from '../config';
+import { findItemByTwoCss } from './common'
 
 export class UserAction {
 
@@ -44,18 +45,18 @@ export class UserAction {
     }
 
 
-    public async navToTabByName(page:Page,tabName:string){
+    public async navToTabByName(page: Page, tabName: string) {
         const css = 'div[class="header"] > a.topic-tab';
 
         await page.waitForSelector(css);
         const allTab = await page.$$(css);
-        const allTabText = await page.$$eval(css,eles=>eles.map(ele=>ele.textContent));
-        const index = allTabText.findIndex(t=>{
-            t = t?t:'';
+        const allTabText = await page.$$eval(css, eles => eles.map(ele => ele.textContent));
+        const index = allTabText.findIndex(t => {
+            t = t ? t : '';
             return t.includes(tabName);
         })
 
-        if(index < 0){
+        if (index < 0) {
             throw new Error(`找不到元素${tabName}，请检查拼写, 页面上元素值为 ${allTabText}`)
         }
 
@@ -64,6 +65,34 @@ export class UserAction {
 
     }
 
-    
+
+    // 到达个人中心页面
+    public async goToUserCenter(page: Page) {
+        const userAvatar = await page.waitForSelector('a[class="user_avatar"]');
+        await userAvatar.click();
+
+    }
+
+
+    // 个人中心页面 找到己创建的话题
+    public async findTopicByName(page: Page, name: string) {
+        const css1 = 'div[id="content"] > div.panel'
+        const css2 = 'div[id="content"] > div.panel >div[class="header"]'
+        const panle = await findItemByTwoCss(page,css1,css2,'最近创建的话题');
+
+        const cells = await panle.$$('div[class="cell"] a[class="topic_title"]');
+        const cellTitles = await panle.$$eval('div[class="cell"] a[class="topic_title"]',eles=>eles.map(ele=>ele.textContent))
+        console.log('cellTitles',cellTitles);
+        const index = cellTitles.findIndex(cell => {
+            if(cell){
+                return cell.includes(name)
+            }
+        })
+        console.log('index == ',index)
+        if(index == -1 ) throw new Error(`找不到元素${name}`);
+     
+        return cells[index];
+    }
+
 
 }

@@ -30,6 +30,7 @@ export class TopicAction {
     public async editTopic(page: Page, tab: string, title: string, content: string) {
         await this.createTopic(page, tab, title, content);
     }
+    
 
 }
 
