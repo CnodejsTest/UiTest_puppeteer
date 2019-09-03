@@ -4,7 +4,7 @@ import { TopicAction } from './actions/topic'
 import { Page, launch } from 'puppeteer';
 
 async function run() {
-    let browser = await launch({ headless: false, slowMo: 100 , defaultViewport:{width:1366,height:700}})
+    let browser = await launch({ headless: false, slowMo: 100, defaultViewport: { width: 1366, height: 700 } })
     let page: Page = await browser.newPage();
     let useraction = new UserAction();
     let topicAction = new TopicAction();
@@ -21,8 +21,11 @@ async function run() {
     // await useraction.navToTabByName(page,'分享')
 
     await useraction.goToUserCenter(page);
-    const topic = await useraction.findTopicByName(page,'helloworld')
+    const topic = await useraction.findTopicByName(page, '这是9月3号发的帖子-1000')
     await topic.click();
+
+    await topicAction.delTopic(page);
+
 }
 
 run();

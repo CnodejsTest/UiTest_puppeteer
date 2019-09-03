@@ -30,7 +30,22 @@ export class TopicAction {
     public async editTopic(page: Page, tab: string, title: string, content: string) {
         await this.createTopic(page, tab, title, content);
     }
-    
+
+    // 删除话题
+    public async delTopic(page: Page) {
+
+        await page.waitForNavigation();
+
+        page.on('dialog', async(dialog)=>{
+            console.log("dialog",dialog.message());
+            await dialog.accept();
+        })
+
+        const delIcon = await page.waitForSelector('a[class="delete_topic_btn"]')
+        await delIcon.click();
+    }
+
+
 
 }
 
