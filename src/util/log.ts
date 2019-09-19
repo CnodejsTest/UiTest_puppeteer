@@ -15,19 +15,22 @@ export class Log {
     }
 
 
-    public static debug(debug:string){
+    public static debug(debug: string) {
         Log.Logger.debug(debug)
     }
 
-    public static info(info:string){
+    public static info(info: string) {
         Log.Logger.info(info)
     }
 
-    public static warn(warn:string){
+    public static warn(warn: string) {
         Log.Logger.warn(warn)
     }
 
-    public static error(error:string){
+    public static error(error: string) {
         Log.Logger.error(error)
     }
 }
+
+
+Log.init()
